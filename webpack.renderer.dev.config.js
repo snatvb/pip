@@ -8,14 +8,15 @@ const baseConfig = require('./webpack.renderer.config');
 module.exports = merge.smart(baseConfig, {
     entry: ['react-hot-loader/patch', './src/app.tsx'],
     module: {
-        rules: [
-            {
-                test: /\.tsx?$/,
-                include: [path.resolve(__dirname, 'src')],
-                exclude: [path.resolve(__dirname, 'src', 'main.ts')],
-                loaders: ['react-hot-loader/webpack', 'awesome-typescript-loader']
-            }
-        ]
+        rules: [{
+            test: /\.tsx?$/,
+            include: [path.resolve(__dirname, 'src')],
+            exclude: [
+                path.resolve(__dirname, 'src', 'main.ts'),
+                path.resolve(__dirname, 'src', 'lowLevel')
+            ],
+            loaders: ['react-hot-loader/webpack', 'awesome-typescript-loader']
+        }]
     },
     plugins: [new webpack.NamedModulesPlugin(), new webpack.HotModuleReplacementPlugin()],
     devServer: {
@@ -34,10 +35,10 @@ module.exports = merge.smart(baseConfig, {
             if (process.env.START_HOT) {
                 console.log('Starting main process');
                 spawn('npm', ['run', 'start-main-dev'], {
-                    shell: true,
-                    env: process.env,
-                    stdio: 'inherit'
-                })
+                        shell: true,
+                        env: process.env,
+                        stdio: 'inherit'
+                    })
                     .on('close', code => process.exit(code))
                     .on('error', spawnError => console.error(spawnError));
             }

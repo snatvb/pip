@@ -13,7 +13,7 @@
         "prestart": "npm run build",
         "start": "electron .",
         "lint": "tslint '{src,test,mocks}/**/*.{ts,tsx}' --project ./tsconfig.json",
-        "precommit": "lint-staged",
+        "_precommit": "lint-staged",
         "test": "jest '(\\/test\\/(?!e2e/)).*'",
         "pretest:e2e": "npm run build",
         "test:e2e": "jest '(\\/test\\/e2e/).*'",
@@ -27,7 +27,7 @@
             "git add"
         ],
         "{src,test,mocks}/**/*.{js,ts,tsx}": [
-            "tslint --project ./tsconfig.json --fix",
+            "tslint --project ./tsconfig.json",
             "git add"
         ]
     },
@@ -86,11 +86,15 @@
     "devDependencies": {
         "@types/electron-devtools-installer": "^2.0.2",
         "@types/jest": "^21.1.9",
-        "@types/react": "^16.0.31",
+        "@types/lodash.debounce": "^4.0.3",
+        "@types/node": "^10.3.2",
+        "@types/ramda": "^0.25.32",
+        "@types/react": "^16.3.17",
         "@types/react-dom": "^16.0.3",
         "@types/react-hot-loader": "^3.0.5",
         "@types/react-redux": "^5.0.14",
         "@types/react-test-renderer": "^16.0.0",
+        "@types/recompose": "^0.26.1",
         "@types/webdriverio": "^4.8.7",
         "@types/webpack-env": "^1.13.3",
         "awesome-typescript-loader": "^3.4.1",
@@ -127,9 +131,8 @@
     },
     "dependencies": {
         "@types/classnames": "^2.2.4",
-        "@types/ramda": "^0.25.32",
-        "@types/recompose": "^0.26.1",
         "classnames": "^2.2.6",
+        "lodash.debounce": "^4.0.8",
         "normalize.css": "^8.0.0",
         "ramda": "^0.25.0",
         "react": "^16.2.0",

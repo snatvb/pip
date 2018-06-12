@@ -10,15 +10,14 @@ module.exports = merge.smart(baseConfig, {
         main: './src/main.ts'
     },
     module: {
-        rules: [
-            {
-                test: /\.tsx?$/,
-                include: [
-                    path.resolve(__dirname, 'src', 'main.ts')
-                ],
-                loader: 'awesome-typescript-loader'
-            }
-        ]
+        rules: [{
+            test: /\.tsx?$/,
+            include: [
+                path.resolve(__dirname, 'src', 'main.ts'),
+                path.resolve(__dirname, 'src', 'lowLevel')
+            ],
+            loader: 'awesome-typescript-loader'
+        }]
     },
     plugins: [
         new webpack.DefinePlugin({
