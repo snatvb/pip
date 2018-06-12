@@ -1,0 +1,12 @@
+.Input {
+    background-color: #101114;
+    border: none;
+    color: inherit;
+    padding: 3px 5px;
+    border-radius: 3px;
+    font-size: 14px;
+    &:focus {
+        outline: none;
+        border: solid 2px #4f5564;
+    }
+}

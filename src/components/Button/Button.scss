@@ -1,0 +1,20 @@
+Button {
+    border-radius: 3px;
+    background-color: rgb(43, 46, 56);
+    border: none;
+    padding: 5px 8px;
+    font-size: 16px;
+    color: #fff;
+    &:hover {
+        background-color: rgb(60, 63, 77);
+        cursor: pointer;
+    }
+    &:active {
+        outline: none;
+        box-shadow: inset 1px 3px 3px rgba(0, 0, 0, 0.5);
+    }
+    &:focus {
+        background-color: rgb(60, 63, 77);
+        outline: none;
+    }
+}
