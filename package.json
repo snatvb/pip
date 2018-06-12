@@ -71,15 +71,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:Robinfr/electron-react-typescript.git"
+    "url": "git+ssh://git@github.com:snatvb/pip.git"
   },
   "author": {
-    "name": "Your name",
-    "email": "Your email"
+    "name": "snatvb",
+    "email": "snatvb@ya.ru"
   },
   "license": "SEE LICENSE",
   "bugs": {
-    "url": "https://github.com/Robinfr/electron-react-typescript/issues"
+    "url": "https://github.com/snatvb/pip/issues"
   },
   "homepage": "https://github.com/Robinfr/electron-react-typescript",
   "devDependencies": {
