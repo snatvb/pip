@@ -6,6 +6,7 @@ const remote = require('electron').remote;
 export type Props = {
     children: any,
     title: string,
+    displayMaximize?: boolean,
 }
 
 const handleClose = (event: React.MouseEvent) => {
@@ -18,6 +19,11 @@ const handleMinimize = (event: React.MouseEvent) => {
     remote.getCurrentWindow().minimize()
 }
 
+const handleMaximize = (event: React.MouseEvent) => {
+    event.preventDefault()
+    remote.getCurrentWindow().maximize()
+}
+
 const Frame = (props: Props) => (
     <div className="Frame">
         <div className="body">
@@ -25,12 +31,11 @@ const Frame = (props: Props) => (
                 <div className="title">
                     { props.title }
                 </div>
-                <div className="minimize">
-                    <a href="#" onClick={ handleMinimize }>-</a>
-                </div>
-                <div className="close">
-                    <a href="#" onClick={ handleClose }>&#215;</a>
-                </div>
+                { props.displayMaximize && (
+                    <a className="maximize" href="#" onClick={ handleMaximize }>+</a>
+                ) }
+                    <a href="#" className="minimize" onClick={ handleMinimize }>-</a>
+                    <a href="#" className="close" onClick={ handleClose }>&#215;</a>
             </header>
             <div className="content">
                 { props.children }
