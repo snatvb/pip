@@ -12,7 +12,7 @@ const handleOpenTwitch = (inputTwitch: string) => (e: React.MouseEvent<HTMLButto
     e.preventDefault()
     if(inputTwitch.length === 0) return;
     const twitch: string = R.takeLast(1, inputTwitch.split('/'))[0]
-    // const url: string = 'https://www.youtube.com/watch?v=46Kti47qliI'
+    
     const url: string = `https://player.twitch.tv/?channel=${twitch}`
     ipcRenderer.send('open-window', url)
 }
@@ -21,8 +21,11 @@ const handleOpenYoutube = (inputYoutube: string) => (e: React.MouseEvent<HTMLBut
     if(inputYoutube.length === 0) return;
     const youtubeSlash: string = R.takeLast(1, inputYoutube.split('/'))[0]
     const youtube: string = R.takeLast(1, youtubeSlash.split('v='))[0]
-    // const url: string = 'https://www.youtube.com/watch?v=46Kti47qliI'
-    const url: string = `https://www.youtube.com/embed/${youtube}?autoplay=1`
+    const time = R.match(/t=[0-9]+s/gi, youtube)
+    const timeString = time.length === 1 ? `&start=${ time[0].split('=')[1] }` : ''
+    const youtubeClear = youtube.replace(/&t=[0-9]+s/gi, '')
+
+    const url: string = `https://www.youtube.com/embed/${youtubeClear}?autoplay=1${timeString}`
     ipcRenderer.send('open-window', url)
 }
 
