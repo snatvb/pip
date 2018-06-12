@@ -26,7 +26,8 @@
             width: 100%;
             font-size: 12px;
         }
-        .close {
+        .close,
+        .minimize {
             padding: 3px;
             padding-right: 4px;
             background-color: rgb(175, 27, 27);
@@ -45,6 +46,13 @@
             }
             a {
                 text-decoration: none;
+            }
+        }
+        .minimize {
+            line-height: 6px;
+            background-color: rgb(189, 186, 16);
+            &:hover {
+                background-color: rgb(223, 219, 30);
             }
         }
     }

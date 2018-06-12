@@ -13,12 +13,20 @@ const handleClose = (event: React.MouseEvent) => {
     remote.getCurrentWindow().close()
 }
 
+const handleMinimize = (event: React.MouseEvent) => {
+    event.preventDefault()
+    remote.getCurrentWindow().minimize()
+}
+
 const Frame = (props: Props) => (
     <div className="Frame">
         <div className="body">
             <header>
                 <div className="title">
                     { props.title }
+                </div>
+                <div className="minimize">
+                    <a href="#" onClick={ handleMinimize }>-</a>
                 </div>
                 <div className="close">
                     <a href="#" onClick={ handleClose }>&#215;</a>
