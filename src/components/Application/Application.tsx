@@ -16,13 +16,16 @@ const handleOpenTwitch = (inputTwitch: string) => (e: React.MouseEvent<HTMLButto
     const url: string = `https://player.twitch.tv/?channel=${twitch}`
     ipcRenderer.send('open-window', url)
 }
+
+const getTimeFromTLink = (tlink: string): string => tlink.split('=')[1]
+
 const handleOpenYoutube = (inputYoutube: string) => (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault()
     if(inputYoutube.length === 0) return;
     const youtubeSlash: string = R.takeLast(1, inputYoutube.split('/'))[0]
     const youtube: string = R.takeLast(1, youtubeSlash.split('v='))[0]
     const time = R.match(/t=[0-9]+s/gi, youtube)
-    const timeString = time.length === 1 ? `&start=${ time[0].split('=')[1] }` : ''
+    const timeString = time.length === 1 ? `&start=${ getTimeFromTLink(time[0]) }` : ''
     const youtubeClear = youtube.replace(/&t=[0-9]+s/gi, '')
 
     const url: string = `https://www.youtube.com/embed/${youtubeClear}?autoplay=1${timeString}`
