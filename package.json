@@ -55,7 +55,8 @@
       "category": "snatvb.app.category.type"
     },
     "directories": {
-      "output": "release"
+      "output": "release",
+      "buildResources ": "assets"
     },
     "files": [
       "dist/",
@@ -81,7 +82,7 @@
   "bugs": {
     "url": "https://github.com/snatvb/pip/issues"
   },
-  "homepage": "https://github.com/Robinfr/electron-react-typescript",
+  "homepage": "https://github.com/snatvb/pip",
   "devDependencies": {
     "@types/electron-devtools-installer": "^2.0.2",
     "@types/jest": "^21.1.9",
