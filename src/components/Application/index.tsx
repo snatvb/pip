@@ -17,13 +17,16 @@ const handleOpenTwitch = (props: Props & HandlersProps) => (
 }
 
 const getTimeFromTLink = (tlink: string): string => tlink.split('=')[1]
+const takeLast = <T extends {}>(arr: ReadonlyArray<T>) => R.takeLast(1, arr)[0]
+const takeFirst = <T extends {}>(arr: ReadonlyArray<T>) => R.take(1, arr)[0]
 
 const handleOpenYoutube = (props: Props & HandlersProps) =>
     (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault()
         if (props.youtube.length === 0) return
-        const youtubeSlash: string = R.takeLast(1, props.youtube.split('/'))[0]
-        const youtube: string = R.takeLast(1, youtubeSlash.split('v='))[0]
+        const youtubeSlash: string = takeLast(props.youtube.split('/'))
+        const youtubeEnd: string = takeLast(youtubeSlash.split('v='))
+        const youtube: string = takeFirst(youtubeEnd.split('&'))
         const time = R.match(/t=[0-9]+s/gi, youtube)
         const timeString = time.length === 1 ? `&start=${getTimeFromTLink(time[0])}` : ''
         const youtubeClear = youtube.replace(/&t=[0-9]+s/gi, '')
