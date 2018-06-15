@@ -1,6 +1,6 @@
 {
     "name": "PiP",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Picture in Picture",
     "main": "./dist/main.js",
     "scripts": {
