@@ -35,7 +35,7 @@ const installExtensions = async () => {
 
 const createUrl = () => {
     if (process.env.NODE_ENV !== 'production') {
-        return `http://localhost:2003`;
+        return `http://localhost:2003/`;
     }
     return url.format({
         pathname: path.join(__dirname, 'index.html'),
@@ -106,7 +106,7 @@ ipcMain.on('open-window', (event: any, url: string) => {
     winUrl.setAlwaysOnTop(true, 'floating');
     winUrl.setVisibleOnAllWorkspaces(true);
     winUrl.setFullScreenable(false);
-    winUrl.loadURL(createUrl() + `?openURL=${url}`);
+    winUrl.loadURL(createUrl() + `#openURL/${url}`);
     const updateSettings = (event: any) => {
         urlWinSettings = event.sender.getBounds();
         urlWinSave();

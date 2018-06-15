@@ -13,7 +13,7 @@ const handleOpenTwitch = (props: Props & HandlersProps) => (
     const twitch: string = R.takeLast(1, props.twitch.split('/'))[0]
 
     const url: string = `https://player.twitch.tv/?channel=${twitch}`
-    ipcRenderer.send('open-window', url)
+    ipcRenderer.send('open-window', encodeURIComponent(url))
 }
 
 const getTimeFromTLink = (tlink: string): string => tlink.split('=')[1]
@@ -32,7 +32,7 @@ const handleOpenYoutube = (props: Props & HandlersProps) =>
         const youtubeClear = youtube.replace(/&t=[0-9]+s/gi, '')
 
         const url: string = `https://www.youtube.com/embed/${youtubeClear}?autoplay=1${timeString}`
-        ipcRenderer.send('open-window', url)
+        ipcRenderer.send('open-window', encodeURIComponent(url))
     }
 
 const handleRightClickYoutube = (props: Props & HandlersProps) =>
