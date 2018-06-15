@@ -10,6 +10,8 @@ export interface HandlersProps {
     onOpenYoutube: (event: React.MouseEvent<HTMLButtonElement>) => void
     onRightClickTwitch: (event: React.MouseEvent<HTMLInputElement>) => void
     onRightClickYoutube: (event: React.MouseEvent<HTMLInputElement>) => void
+    onKeyUpTwitch: (event: React.KeyboardEvent<HTMLInputElement>) => void
+    onKeyUpYoutube: (event: React.KeyboardEvent<HTMLInputElement>) => void
 }
 
 export interface Props {
@@ -29,6 +31,7 @@ const Application: React.StatelessComponent<Props & HandlersProps> = (props) => 
                     placeholder={'Twitch'}
                     className="url-input"
                     onRigthClick={ props.onRightClickTwitch }
+                    onKeyUp={ props.onKeyUpTwitch }
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         props.changeTwitch(event.target.value)
                     }
@@ -41,6 +44,7 @@ const Application: React.StatelessComponent<Props & HandlersProps> = (props) => 
                     placeholder={'Youtube'}
                     className="url-input"
                     onRigthClick={ props.onRightClickYoutube }
+                    onKeyUp={ props.onKeyUpYoutube }
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         props.changeYoutube(event.target.value)
                     }

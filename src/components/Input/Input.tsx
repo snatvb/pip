@@ -5,6 +5,7 @@ require('./Input.scss')
 
 export interface HandlersProps {
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+    onKeyUp?: (event: React.KeyboardEvent<HTMLInputElement>) => void
     onRigthClick?: (event: React.MouseEvent<HTMLInputElement>) => void
 }
 
@@ -19,6 +20,7 @@ const Input: React.StatelessComponent<Props & HandlersProps> = (props) => (
         value={ props.value }
         placeholder={ props.placeholder }
         onChange={ props.onChange }
+        onKeyUp = { props.onKeyUp }
         onContextMenu={ props.onRigthClick }
         className={cn('Input', props.className)} 
     />

@@ -5,10 +5,11 @@ import Application, { Props, HandlersProps } from './Application'
 
 const { ipcRenderer, clipboard } = require('electron')
 
-const handleOpenTwitch = (props: Props & HandlersProps) => (
-    e: React.MouseEvent<HTMLButtonElement>
-): void => {
-    e.preventDefault()
+const getTimeFromTLink = (tlink: string): string => R.replace('s', '', tlink.split('=')[1])
+const takeLast = <T extends {}>(arr: ReadonlyArray<T>) => R.takeLast(1, arr)[0]
+const takeFirst = <T extends {}>(arr: ReadonlyArray<T>) => R.take(1, arr)[0]
+
+const openTwitch = (props: Props & HandlersProps) => {
     if (props.twitch.length === 0) return
     const twitch: string = R.takeLast(1, props.twitch.split('/'))[0]
 
@@ -16,23 +17,30 @@ const handleOpenTwitch = (props: Props & HandlersProps) => (
     ipcRenderer.send('open-window', encodeURIComponent(url))
 }
 
-const getTimeFromTLink = (tlink: string): string => tlink.split('=')[1]
-const takeLast = <T extends {}>(arr: ReadonlyArray<T>) => R.takeLast(1, arr)[0]
-const takeFirst = <T extends {}>(arr: ReadonlyArray<T>) => R.take(1, arr)[0]
+const openYoutube = (props: Props & HandlersProps) => {
+    if (props.youtube.length === 0) return
+    const youtubeSlash: string = takeLast(props.youtube.split('/'))
+    const youtubeEnd: string = takeLast(youtubeSlash.split('v='))
+    const youtubeWithoutAnd: string = takeFirst(youtubeEnd.split('&'))
+    const youtube: string = takeFirst(youtubeWithoutAnd.split('?'))
+    const time = R.match(/t=[0-9]+s/gi, youtubeSlash)[0]
+    const timeString = typeof time === 'string' ? `&start=${getTimeFromTLink(time)}` : ''
+
+    const url: string = `https://www.youtube.com/embed/${youtube}?autoplay=1${timeString}`
+    ipcRenderer.send('open-window', encodeURIComponent(url))
+}
+
+const handleOpenTwitch = (props: Props & HandlersProps) => (
+    e: React.MouseEvent<HTMLButtonElement>
+): void => {
+    e.preventDefault()
+    openTwitch(props)
+}
 
 const handleOpenYoutube = (props: Props & HandlersProps) =>
     (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault()
-        if (props.youtube.length === 0) return
-        const youtubeSlash: string = takeLast(props.youtube.split('/'))
-        const youtubeEnd: string = takeLast(youtubeSlash.split('v='))
-        const youtube: string = takeFirst(youtubeEnd.split('&'))
-        const time = R.match(/t=[0-9]+s/gi, youtube)
-        const timeString = time.length === 1 ? `&start=${getTimeFromTLink(time[0])}` : ''
-        const youtubeClear = youtube.replace(/&t=[0-9]+s/gi, '')
-
-        const url: string = `https://www.youtube.com/embed/${youtubeClear}?autoplay=1${timeString}`
-        ipcRenderer.send('open-window', encodeURIComponent(url))
+        openYoutube(props)
     }
 
 const handleRightClickYoutube = (props: Props & HandlersProps) =>
@@ -47,6 +55,22 @@ const handleRightClickTwitch = (props: Props & HandlersProps) =>
         props.changeTwitch(clipboard.readText())
     }
 
+
+const KEY_ENTER = 13 // keyCode for enter button
+const handleKeyUpTwitch = (props: Props & HandlersProps) =>
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.keyCode === KEY_ENTER) {
+            openTwitch(props)
+        }
+    }
+
+const handleKeyUpYoutube = (props: Props & HandlersProps) =>
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.keyCode === KEY_ENTER) {
+            openYoutube(props)
+        }
+    }
+
 export default compose<Props & HandlersProps, {}>(
     withState('twitch', 'changeTwitch', ''),
     withState('youtube', 'changeYoutube', ''),
@@ -55,6 +79,8 @@ export default compose<Props & HandlersProps, {}>(
         onOpenYoutube: handleOpenYoutube,
         onRightClickYoutube: handleRightClickYoutube,
         onRightClickTwitch: handleRightClickTwitch,
+        onKeyUpYoutube: handleKeyUpYoutube,
+        onKeyUpTwitch: handleKeyUpTwitch,
     }),
 )(Application)
 export * from './Application'
