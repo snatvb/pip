@@ -1,9 +1,14 @@
 import * as React from 'react'
 
 require('./Frame.scss')
-const remote = require('electron').remote;
 
-export interface Props {
+export interface HandlersProps {
+    onClose: (event: React.MouseEvent) => void
+    onMinimize: (event: React.MouseEvent) => void
+    onMaximize: (event: React.MouseEvent) => void
+}
+
+export interface OutProps {
     children: any
     title: string
     maximize?: boolean
@@ -11,20 +16,15 @@ export interface Props {
     close?: boolean
 }
 
-const handleClose = (event: React.MouseEvent) => {
-    event.preventDefault()
-    remote.getCurrentWindow().close()
+export interface InnerProps {
+    lastBounds: Electron.Rectangle
+    setLastBound: (bounds: Electron.Rectangle) => void
+    maximized: boolean
+    setMaximized: (maximized: boolean) => void
 }
 
-const handleMinimize = (event: React.MouseEvent) => {
-    event.preventDefault()
-    remote.getCurrentWindow().minimize()
-}
+export interface Props extends HandlersProps, OutProps, InnerProps {}
 
-const handleMaximize = (event: React.MouseEvent) => {
-    event.preventDefault()
-    remote.getCurrentWindow().maximize()
-}
 
 const Frame: React.StatelessComponent<Props> = (props) => (
     <div className="Frame">
@@ -34,13 +34,13 @@ const Frame: React.StatelessComponent<Props> = (props) => (
                     { props.title }
                 </div>
                 { props.maximize && (
-                    <a className="maximize" href="#" onClick={ handleMaximize }>+</a>
+                    <a className="maximize" href="#" onClick={ props.onMaximize }>+</a>
                 ) }
                 { props.minimize && (
-                    <a href="#" className="minimize" onClick={ handleMinimize }>-</a>
+                    <a href="#" className="minimize" onClick={ props.onMinimize }>-</a>
                 ) }
                 { props.close && (
-                    <a href="#" className="close" onClick={ handleClose }>&#215;</a>
+                    <a href="#" className="close" onClick={ props.onClose }>&#215;</a>
                 ) }
             </header>
             <div className="content">
