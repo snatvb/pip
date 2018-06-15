@@ -1,71 +1,54 @@
-import * as R from 'ramda';
-import * as React from 'react';
-import { withState, renameProp, withHandlers, compose } from 'recompose';
-import Frame from '../Frame';
-import Input from '../Input';
-import Button from '../Button';
+import * as React from 'react'
+import Frame from '../Frame'
+import Input from '../Input'
+import Button from '../Button'
 
-const { ipcRenderer } = require('electron');
-require('./Application.scss');
+require('./Application.scss')
 
-const handleOpenTwitch = (inputTwitch: string) => (
-    e: React.MouseEvent<HTMLButtonElement>
-): void => {
-    e.preventDefault();
-    if (inputTwitch.length === 0) return;
-    const twitch: string = R.takeLast(1, inputTwitch.split('/'))[0];
+export interface HandlersProps {
+    onOpenTwitch: (event: React.MouseEvent<HTMLButtonElement>) => void
+    onOpenYoutube: (event: React.MouseEvent<HTMLButtonElement>) => void
+    onRightClickTwitch: (event: React.MouseEvent<HTMLInputElement>) => void
+    onRightClickYoutube: (event: React.MouseEvent<HTMLInputElement>) => void
+}
 
-    const url: string = `https://player.twitch.tv/?channel=${twitch}`;
-    ipcRenderer.send('open-window', url);
-};
+export interface Props {
+    twitch: string
+    youtube: string
+    changeTwitch: (twith: string) => void
+    changeYoutube: (youtube: string) => void
+}
 
-const getTimeFromTLink = (tlink: string): string => tlink.split('=')[1];
 
-const handleOpenYoutube = (inputYoutube: string) => (
-    e: React.MouseEvent<HTMLButtonElement>
-): void => {
-    e.preventDefault();
-    if (inputYoutube.length === 0) return;
-    const youtubeSlash: string = R.takeLast(1, inputYoutube.split('/'))[0];
-    const youtube: string = R.takeLast(1, youtubeSlash.split('v='))[0];
-    const time = R.match(/t=[0-9]+s/gi, youtube);
-    const timeString = time.length === 1 ? `&start=${getTimeFromTLink(time[0])}` : '';
-    const youtubeClear = youtube.replace(/&t=[0-9]+s/gi, '');
-
-    const url: string = `https://www.youtube.com/embed/${youtubeClear}?autoplay=1${timeString}`;
-    ipcRenderer.send('open-window', url);
-};
-
-const Application = (props: any) => (
-    <Frame title="Picture in Picture">
+const Application: React.StatelessComponent<Props & HandlersProps> = (props) => (
+    <Frame title="Picture in Picture" minimize>
         <div className="Application">
             <div className="row">
                 <Input
                     value={props.twitch}
                     placeholder={'Twitch'}
                     className="url-input"
+                    onRigthClick={ props.onRightClickTwitch }
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         props.changeTwitch(event.target.value)
                     }
                 />
-                <Button onClick={handleOpenTwitch(props.twitch)}>Open</Button>
+                <Button onClick={props.onOpenTwitch}>Open</Button>
             </div>
             <div className="row">
                 <Input
                     value={props.youtube}
                     placeholder={'Youtube'}
                     className="url-input"
+                    onRigthClick={ props.onRightClickYoutube }
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         props.changeYoutube(event.target.value)
                     }
                 />
-                <Button onClick={handleOpenYoutube(props.youtube)}>Open</Button>
+                <Button onClick={ props.onOpenYoutube }>Open</Button>
             </div>
         </div>
     </Frame>
-);
+)
 
-export default compose(
-    withState('twitch', 'changeTwitch', ''),
-    withState('youtube', 'changeYoutube', '')
-)(Application);
+export default Application

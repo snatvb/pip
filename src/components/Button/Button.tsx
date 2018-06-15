@@ -18,6 +18,6 @@ const Button = (props: Props) => (
         onClick={ props.onClick } 
         className={cn('Button', props.className)} 
     >{ props.children }</button>
-);
+)
 
-export default Button;
+export default Button

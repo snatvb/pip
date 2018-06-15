@@ -8,7 +8,7 @@ type Props = {
 }
 
 const OpenURL = (props: Props) => (
-    <Frame title="PiP Player" displayMaximize>
+    <Frame title="PiP Player" maximize minimize>
         <div className="OpenURL">
             <iframe src={ props.value } frameBorder="0" allowFullScreen></iframe>
         </div>

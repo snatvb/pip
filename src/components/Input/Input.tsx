@@ -3,18 +3,23 @@ import * as cn from 'classnames'
 
 require('./Input.scss')
 
-type Props = {
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
-    className?: string,
-    value?: string,
-    placeholder?: string,
+export interface HandlersProps {
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+    onRigthClick?: (event: React.MouseEvent<HTMLInputElement>) => void
 }
 
-const Input = (props: Props) => (
+export interface Props {
+    className?: string
+    value?: string
+    placeholder?: string
+}
+
+const Input: React.StatelessComponent<Props & HandlersProps> = (props) => (
     <input 
         value={ props.value }
         placeholder={ props.placeholder }
-        onChange={ props.onChange } 
+        onChange={ props.onChange }
+        onContextMenu={ props.onRigthClick }
         className={cn('Input', props.className)} 
     />
 );
